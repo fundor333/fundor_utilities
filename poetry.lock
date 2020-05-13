@@ -59,6 +59,17 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "django-export-csv is a reusable Django application which provides generic View class for creating and rendering CSV."
+name = "django-csv-export"
+optional = false
+python-versions = "*"
+version = "0.0.3"
+
+[package.dependencies]
+Django = ">=1.7"
+
+[[package]]
+category = "main"
 description = "An implementation of lxml.xmlfile for the standard library"
 name = "et-xmlfile"
 optional = false
@@ -232,7 +243,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "647a4801a8866b43c6b8b9deb1f18a096e5986cf642dd87b30000cc6ede02f7c"
+content-hash = "bb2099f06564f96e6ca09ad37288e32b634f713d460a1a2ab96c56e41e1a9405"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -255,6 +266,10 @@ colorama = [
 django = [
     {file = "Django-3.0.6-py3-none-any.whl", hash = "sha256:051ba55d42daa3eeda3944a8e4df2bc96d4c62f94316dea217248a22563c3621"},
     {file = "Django-3.0.6.tar.gz", hash = "sha256:9aaa6a09678e1b8f0d98a948c56482eac3e3dd2ddbfb8de70a868135ef3b5e01"},
+]
+django-csv-export = [
+    {file = "django-csv-export-0.0.3.tar.gz", hash = "sha256:7bcf7bc4aeac7e02a888c423fc610920bc4b7eb2ccbfdb44c6fd7fe99ab2d30c"},
+    {file = "django_csv_export-0.0.3-py2.py3-none-any.whl", hash = "sha256:7f61001316e25f98432cba911a8158ca8386d476cff412d5cfc8574f60cca2b8"},
 ]
 et-xmlfile = [
     {file = "et_xmlfile-1.0.1.tar.gz", hash = "sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b"},
