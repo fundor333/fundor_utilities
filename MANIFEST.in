@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+recursive-include fundor_utilities/static *
+recursive-include fundor_utilities/templates *
