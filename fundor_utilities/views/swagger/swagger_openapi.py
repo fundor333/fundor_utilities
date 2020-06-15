@@ -29,8 +29,6 @@ from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
-from corekernel.views import log
-
 
 class _UnvalidatedField(Field):
     def __init__(self, *args, **kwargs):
@@ -54,13 +52,13 @@ class SortedPathSchemaGenerator:
     coerce_path_pk = None
 
     def __init__(
-        self,
-        title=None,
-        url=None,
-        description=None,
-        patterns=None,
-        urlconf=None,
-        version=None,
+            self,
+            title=None,
+            url=None,
+            description=None,
+            patterns=None,
+            urlconf=None,
+            version=None,
     ):
         if url and not url.endswith("/"):
             url += "/"
@@ -394,12 +392,12 @@ class CustomAutoSchema:
             # Due to camel-casing of classes and `action` being lowercase, apply title in order to find if action truly
             # comes at the end of the name
             if name.endswith(
-                action.title()
+                    action.title()
             ):  # ListView, UpdateAPIView, ThingDelete ...
                 name = name[: -len(action)]
 
         if action == "list" and not name.endswith(
-            "s"
+                "s"
         ):  # listThings instead of listThing
             name += "s"
 
@@ -453,7 +451,7 @@ class CustomAutoSchema:
                 "in": "path",
                 "required": True,
                 "description": description,
-                "schema": {"type": "string",},  # TODO: integer, pattern, ...
+                "schema": {"type": "string", },  # TODO: integer, pattern, ...
             }
             parameters.append(parameter)
 
@@ -603,8 +601,8 @@ class CustomAutoSchema:
             self._map_min_max(field, content)
             # 2147483647 is max for int32_size, so we use int64 for format
             if (
-                int(content.get("maximum", 0)) > 2147483647
-                or int(content.get("minimum", 0)) > 2147483647
+                    int(content.get("maximum", 0)) > 2147483647
+                    or int(content.get("minimum", 0)) > 2147483647
             ):
                 content["format"] = "int64"
             return content
