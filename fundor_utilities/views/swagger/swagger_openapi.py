@@ -30,6 +30,12 @@ from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
 
+class ServerSwagger:
+    def __init__(self, url, description):
+        self.url = url
+        self.description = description
+
+
 class _UnvalidatedField(Field):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -187,7 +193,7 @@ class SortedPathSchemaGenerator:
             result[path][method.lower()] = operation
         return result
 
-    def get_schema(self, request=None, public=False):
+    def get_schema(self, request=None, public=False, servers: [ServerSwagger] = None):
         """
         Generate a OpenAPI schema.
         """
@@ -209,18 +215,14 @@ class SortedPathSchemaGenerator:
                     }
                 }
             },
-            "servers": [
-                {
-                    "url": "https://kitsunetest.alilaguna.it/",
-                    "description": "Sandbox server (uses test data)",
-                },
-                {
-                    "url": "https://kitsune.alilaguna.it/",
-                    "description": "Production server (uses live data)",
-                },
-            ],
+
             "paths": dict(OrderedDict(sorted(paths.items(), key=lambda t: t[0]))),
         }
+        if servers is not None:
+            servers = []
+            for e in servers:
+                servers.append({"url": e.url, "description": e.description})
+            schema['servers'] = servers
         if schema is None:
             return
         return schema
