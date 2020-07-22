@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fundor_utilities"
-version = "1.3.2"
+version = "1.3.3"
 description = ""
 authors = ["Fundor333 <fundor333@fundor333.com>"]
 keywords = ["django", "utilities"]
