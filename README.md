@@ -1,3 +1,6 @@
-# fundor_utilities
+# Fundor Utilities for Django
 
-[![Build Status](https://travis-ci.org/fundor333/fundor_utilities.svg?branch=master)](https://travis-ci.org/fundor333/fundor_utilities)
+![Logo](docs/assets/logo.png)
+
+
+[Docs](https://fundor333.com/fundor_utilities/) are ready!
