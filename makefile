@@ -4,8 +4,8 @@ help: ## Show this help
 
 .PHONY: docs
 docs: ## Build the docs
-	@poetry run mike deploy --push latest
+	@poetry run mike deploy $@ latest --update-aliases --push
 
 rundocs: ## Run the docs locally
-	@poetry run mike deploy latest
+	@poetry run mike deploy $@ --update-aliases latest
 	@poetry run mike serve
