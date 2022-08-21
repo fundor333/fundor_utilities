@@ -24,5 +24,5 @@ jobs:
               run: |
                   git config --global user.name Docs deploy
                   git config --global user.email docs@dummy.bot.com
-            - name: Release docs website
-              run: poetry run mike set-default --push latest
+            - name: Launch test
+              run: make test
