@@ -4,8 +4,7 @@ help: ## Show this help
 
 .PHONY: docs
 docs: ## Build the docs
-	@poetry run mike deploy latest
-	@poetry run mike set-default --push latest
+	@poetry run mike deploy --push latest
 
 rundocs: ## Run the docs locally
 	@poetry run mike deploy latest
