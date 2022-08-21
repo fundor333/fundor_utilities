@@ -9,3 +9,8 @@ docs: ## Build the docs
 rundocs: ## Run the docs locally
 	@poetry run mike deploy $@ --update-aliases latest
 	@poetry run mike serve
+
+
+.PHONY: test
+test: ## Run the tests
+	@poetry run echo "Tests"
