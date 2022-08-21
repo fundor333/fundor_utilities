@@ -18,6 +18,8 @@ jobs:
                   virtualenvs-create: true
                   virtualenvs-in-project: true
                   installer-parallel: true
+            - name: Install dependencies
+              run: poetry install --no-interaction --no-root
             - name: Setup doc deploy
               run: |
                   git config --global user.name Docs deploy
