@@ -1,0 +1,28 @@
+language: python
+dist: xenial
+python:
+  - "3.7"
+stages:
+  - Quality
+  - Publish
+before_install:
+  - pip install poetry
+install:
+  - poetry install
+jobs:
+  include:
+    - stage: Publish
+      script: skip
+      before_deploy:
+        - poetry config http-basic.pypi fundor333 $PYPI_PASSWORD
+        - poetry build -f sdist
+      deploy:
+        provider: script
+        script: poetry publish
+        skip_cleanup: true
+branches:
+  only:
+    - master
+env:
+  global:
+    secure: BJ6E3nst/7gru1xbfMrxtv4B+M/1G+oADUNFnS+hGRtwayYjkAsSDhIdSOrz6I+aYQsy48HsHRHN/l8H97ZDYmkTeE4iarVYMC5yfI4uaNEwDZI5fDvZ2v1GlZ+JgJf2uKveRMkBOg8JdC/T1YFG8yN8HT71kjiMMH14C9IG4CO7p55+HOMEweKhW+nfXzosnahkvG580YEyHCjGNPHn+MwS/6nQXriGC3Fd7/ASPGapU2rbmEdXQepmr46V85BgFbPKGFCS951C1d2U42qJeAWgGnd98lSeOycrimZtM9mohfXg8awXTZrpbSPRQRYWkiwT9T77x6AVeDszvvR+NZ0xZ4pObh51nSh0MBdo+cik6z4BK40mZ0ey0392wHRAQCyTUq0YYCJPMG+Mnqqv5Oyc2LYMK7YmwT/pVhf0cI5KKaIDZs9jjy4Ks86FCSw4HvMwzAqJKBGr3I1LMjdJGZsMskHdtPKvwA71YgXLYgHCPD7YfNYDu/gZ5ww3je+NE8vcd5Q+37plnGSxWCy7C6365MipIBO42wHOGCqUhfQDcG6puG5M3kia353VB8i08y9/l6OR+7L88TOOlss9tPuhTBrn9ucPUdCche816CWdmZHPgN1Pw8Q9MDe5J/mLzblaaklToRbgSL+6UUguhgYXtGQ3bvt5WhTLlFDg7D4=
