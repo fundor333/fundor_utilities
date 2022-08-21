@@ -60,6 +60,10 @@ class XlsxExporter(View):
      Default value is 'text/xlsx' and should not be overridden.
     """
 
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self._xlsx_writer_dialect = None
+
     def get_queryset(self):
         """Returns the queryset for generating XLSX.
 
@@ -114,8 +118,9 @@ class XlsxExporter(View):
         field_names = self.get_field_names()
         if self.model is not None:
             verbose_names = [
-                f.verbose_name for f in self.model._meta.fields if
-                f.name in field_names
+                f.verbose_name
+                for f in self.model._meta.fields
+                if f.name in field_names
             ]
             return verbose_names
         else:

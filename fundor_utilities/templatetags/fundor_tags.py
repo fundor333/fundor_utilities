@@ -4,22 +4,6 @@ from django.conf import settings
 register = template.Library()
 
 
-@register.simple_tag
-def url_replace(value, field_name, params=None):
-    """
-    Give a field and a value and it's update the post parameter for the url accordly
-    """
-    url = "?{}={}".format(field_name, value)
-    if params:
-        querystring = params.split("&")
-        filtered_querystring = filter(
-            lambda p: p.split("=")[0] != field_name, querystring
-        )
-        encoded_querystring = "&".join(filtered_querystring)
-        url = "{}&{}".format(url, encoded_querystring)
-    return url
-
-
 @register.filter
 def table_page_range(page, paginator):
     """
@@ -52,3 +36,29 @@ def table_page_range(page, paginator):
     if num_pages not in ret:
         ret = list(ret)[:-2] + ["...", num_pages]
     return ret
+
+
+@register.simple_tag
+def url_replace(value, field_name, params=None):
+    """
+    Give a field and a value and it's update the post parameter for the url accordly
+    """
+    url = f"?{field_name}={value}"
+    if params:
+        querystring = params.split("&")
+        filtered_querystring = filter(
+            lambda p: p.split("=")[0] != field_name, querystring
+        )
+        encoded_querystring = "&".join(filtered_querystring)
+        url = f"{url}&{encoded_querystring}"
+    return url
+
+
+@register.simple_tag
+def url_replace_diff(request, field, value):
+    """
+    Give a field and a value and it's update the post parameter for the url accordly
+    """
+    dict_ = request.GET.copy()
+    dict_[field] = value
+    return dict_.urlencode()
