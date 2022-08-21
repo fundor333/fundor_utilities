@@ -1,2 +1,3 @@
-# Fundor UJJtility for Django
+# Introduction
+
 Work in progress
