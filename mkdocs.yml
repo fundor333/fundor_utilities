@@ -1,8 +1,10 @@
 site_name: Fundor Utilities for Django
 repo_url: https://github.com/fundor333/fundor_utilities
-
+site_url: https://fundor333.github.io/fundor_utilities
 theme:
   name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
   palette:
     - scheme: default
       toggle:
@@ -15,12 +17,13 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
-      primary: lime
+      primary: teal
       accent: deep orange
   language: en
 plugins:
     - search
     - mike
+    - tags
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -57,13 +60,6 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 extra:
-  consent:
-    title: Cookie consent
-    description: >-
-      We use cookies to recognize your repeated visits and preferences, as well
-      as to measure the effectiveness of our documentation and whether users
-      find what they're searching for. With your consent, you're helping us to
-      make our documentation better.
   version:
     provider: mike
     default: stable
