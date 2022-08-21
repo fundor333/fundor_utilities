@@ -60,10 +60,6 @@ class XlsxExporter(View):
      Default value is 'text/xlsx' and should not be overridden.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self._xlsx_writer_dialect = None
-
     def get_queryset(self):
         """Returns the queryset for generating XLSX.
 
