@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.utils.encoding import force_str
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from openpyxl import Workbook
+from setuptools._entry_points import _
 
 from fundor_utilities.exception import NoModelFoundException
 
@@ -60,6 +60,10 @@ class XlsxExporter(View):
      Default value is 'text/xlsx' and should not be overridden.
     """
 
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self._xlsx_writer_dialect = None
+
     def get_queryset(self):
         """Returns the queryset for generating XLSX.
 
@@ -114,7 +118,9 @@ class XlsxExporter(View):
         field_names = self.get_field_names()
         if self.model is not None:
             verbose_names = [
-                f.verbose_name for f in self.model._meta.fields if f.name in field_names
+                f.verbose_name
+                for f in self.model._meta.fields
+                if f.name in field_names
             ]
             return verbose_names
         else:
@@ -230,12 +236,5 @@ class XlsxExporter(View):
         wb.save(response)
         return response
 
-    def get(self, request):
-        """
-        Default get method.
-
-        :param request: request
-        :type request: HttpRequest
-        :returns: HttpResponse
-        """
+    def render_to_response(self, context, **response_kwargs):
         return self._create_xlsx()
