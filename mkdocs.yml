@@ -1,70 +1,70 @@
 site_name: Fundor Utilities for Django
 repo_url: https://github.com/fundor333/fundor_utilities
-site_url: https://fundor333.github.io/fundor_utilities
+site_url: https://fundor333.com/fundor_utilities
 theme:
-  name: material
-  logo: assets/logo.png
-  favicon: assets/logo.png
-  palette:
-    - scheme: default
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-      primary: lime
-      accent: deep orange
-        -
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
-      primary: teal
-      accent: deep orange
-  language: en
+    name: material
+    logo: assets/logo.png
+    favicon: assets/logo.png
+    palette:
+        - scheme: default
+          toggle:
+              icon: material/weather-night
+              name: Switch to dark mode
+          primary: lime
+          accent: deep orange
+              -
+        - scheme: slate
+          toggle:
+              icon: material/weather-sunny
+              name: Switch to light mode
+          primary: teal
+          accent: deep orange
+    language: en
 plugins:
     - search
     - mike
     - tags
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - footnotes
-  - footnotes
-  - smarty
-  - toc:
-      permalink: True
-  - sane_lists
-  - codehilite
+    - pymdownx.highlight:
+          anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+    - admonition
+    - pymdownx.details
+    - pymdownx.superfences
+    - footnotes
+    - footnotes
+    - smarty
+    - toc:
+          permalink: True
+    - sane_lists
+    - codehilite
 
-  - pymdownx.arithmatex
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.caret
-  - pymdownx.critic
-  - pymdownx.details
-  - pymdownx.highlight:
-      use_pygments: true
-      linenums: true
-      linenums_style: pymdownx.inline
-  - pymdownx.inlinehilite
-  - pymdownx.magiclink
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+    - pymdownx.arithmatex
+    - pymdownx.betterem:
+          smart_enable: all
+    - pymdownx.caret
+    - pymdownx.critic
+    - pymdownx.details
+    - pymdownx.highlight:
+          use_pygments: true
+          linenums: true
+          linenums_style: pymdownx.inline
+    - pymdownx.inlinehilite
+    - pymdownx.magiclink
+    - pymdownx.mark
+    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.tasklist:
+          custom_checkbox: true
+    - pymdownx.tilde
 extra:
-  version:
-    provider: mike
-    default: stable
+    version:
+        provider: mike
+        default: stable
 
 nav:
-  - Home: index.md
-  - Views:
-      - "XlsxExporterView": "views/xls.md"
+    - Home: index.md
+    - Views:
+          - "XlsxExporterView": "views/xls.md"
