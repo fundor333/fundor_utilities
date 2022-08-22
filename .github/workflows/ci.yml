@@ -22,3 +22,5 @@ jobs:
               run: poetry install --no-interaction --no-root
             - name: Launch test
               run: make test
+            - name: Launch docs builds
+              run: make docs

@@ -12,4 +12,4 @@ rundocs: ## Run the docs locally
 
 .PHONY: test
 test: ## Run the tests
-	@poetry run python runtests.py
+	@poetry run mkdocs gh-deploy --force
