@@ -7,7 +7,7 @@ from setuptools._entry_points import _
 from fundor_utilities.exception import NoModelFoundException
 
 
-class XlsxExporter(View):
+class XlsxExporterView(View):
     """Generic View class which handles exporting queryset to XLSX file and
     rendering the response.
     """
@@ -81,7 +81,7 @@ class XlsxExporter(View):
             raise NoModelFoundException(_(exception_msg))
         return queryset
 
-    def get_field_names(self):
+    def get_field_names(self)->list:
         """Returns the fields names to be included in the XLSX.
 
         It returns the value of ``field_names`` attribute, if ``field_names``
@@ -123,7 +123,7 @@ class XlsxExporter(View):
             exception_msg = "No model to get verbose field names from."
             raise NoModelFoundException(_(exception_msg))
 
-    def get_col_names(self):
+    def get_col_names(self)->list:
         """Returns column names to be used for writing header row of the XLSX.
 
         It returns ``col_names``, if ``col_names`` is not an empty list.
@@ -234,3 +234,7 @@ class XlsxExporter(View):
 
     def render_to_response(self, context, **response_kwargs):
         return self._create_xlsx()
+
+
+class XlsxExporter(XlsxExporterView):
+    pass

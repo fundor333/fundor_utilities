@@ -7,10 +7,9 @@ docs: ## Build the docs
 	@poetry run mike deploy $@ latest --update-aliases --push
 
 rundocs: ## Run the docs locally
-	@poetry run mike deploy $@ --update-aliases latest
-	@poetry run mike serve
+	@poetry run mkdocs serve
 
 
 .PHONY: test
 test: ## Run the tests
-	@poetry run echo "Tests"
+	@poetry run python runtests.py

@@ -63,3 +63,8 @@ extra:
   version:
     provider: mike
     default: stable
+
+nav:
+  - Home: index.md
+  - Views:
+      - "XlsxExporterView": "views/xls.md"
