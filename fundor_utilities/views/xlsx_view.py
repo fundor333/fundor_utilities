@@ -60,7 +60,7 @@ class XlsxExporterView(View):
      Default value is 'text/xlsx' and should not be overridden.
     """
 
-    def get_queryset(self):
+    def get_queryset_for_xlsx(self):
         """Returns the queryset for generating XLSX.
 
         By default, it returns all instances of the Model class referred by
@@ -70,15 +70,17 @@ class XlsxExporterView(View):
 
         :returns: :class:`QuerySet`
         """
-
-        if self.model is not None:
-            queryset = self.model.objects.all()
-        else:
-            exception_msg = (
-                "No model to get queryset from. Either provide "
-                "a model or override get_queryset method."
-            )
-            raise NoModelFoundException(_(exception_msg))
+        try:
+            queryset = self.get_queryset()
+        except Exception:
+            if self.model is not None:
+                queryset = self.model.objects.all()
+            else:
+                exception_msg = (
+                    "No model to get queryset from. Either provide "
+                    "a model or override get_queryset method."
+                )
+                raise NoModelFoundException(_(exception_msg))
         return queryset
 
     def get_field_names(self) -> list:
@@ -224,10 +226,7 @@ class XlsxExporterView(View):
             self.col_names = self.get_col_names()
             ws.append(self.col_names)
 
-        try:
-            _, queryset, _ = self.get_dated_items()
-        except Exception:
-            queryset = self.get_queryset()
+        queryset = self.get_queryset_for_xlsx()
         fields = self.get_field_names()
         if queryset is not None:
             for row in queryset.prefetch_related().values_list(*fields):
