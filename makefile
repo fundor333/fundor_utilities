@@ -13,3 +13,8 @@ rundocs: ## Run the docs locally
 .PHONY: test
 test: ## Run the tests
 	@poetry run mkdocs gh-deploy --force
+
+.PHONY: deploy
+deploy: docs ## Deploy the code
+	@poetry build
+	@poetry publish
