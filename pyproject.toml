@@ -8,30 +8,31 @@ keywords = ["django", "utilities"]
 homepage = "https://github.com/fundor333/fundor_utilities"
 repository = "https://github.com/fundor333/fundor_utilities"
 
-classifiers=[
-      'Development Status :: 5 - Production/Stable',
-      'Environment :: Web Environment',
-      'Framework :: Django',
-      'Framework :: Django :: 3.0',
-      'Intended Audience :: Developers',
-      'Operating System :: OS Independent',
-      'Programming Language :: Python',
-      'Programming Language :: Python :: 3',
-      'Programming Language :: Python :: 3.8',
-      'Programming Language :: Python :: 3.9',
-      'Programming Language :: Python :: 3.10',
-      'Programming Language :: Python :: 3 :: Only',
-      'Topic :: Internet :: WWW/HTTP',
-  ]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Web Environment',
+    'Framework :: Django',
+    'Framework :: Django :: 3.0',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Internet :: WWW/HTTP',
+]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-django = "^4.1"
-openpyxl = "^3.0.10"
-django-csv-export = "^0.0.3"
-djangorestframework = "^3.11.0"
+python = ">=3.10,<4.0"
+django = ">=5.1, <6.0"
+openpyxl = "*"
+django-csv-export = "*"
+djangorestframework = "*"
+markdown = "^3.7"
 
-[tool.poetry.dev-dependencies]
+[tool.group.dev.dependencies]
 pytest = "^7.0.0"
 mkdocs = "^1.3.1"
 mkdocs-material = "^8.4.1"
@@ -64,15 +65,13 @@ exclude = '''
 '''
 
 [tool.skjold]
-sources = ["pyup", "gemnasium"]  # Sources to check against.
-report_only = true                         # Report only, always exit with zero.
-cache_dir = '.skylt_cache'                 # Cache location (default: `~/.skjold/cache`).
-cache_expires = 86400                      # Cache max. age.
-verbose = true                             # Be verbose.
+sources = ["pyup", "gemnasium"] # Sources to check against.
+report_only = true              # Report only, always exit with zero.
+cache_dir = '.skylt_cache'      # Cache location (default: `~/.skjold/cache`).
+cache_expires = 86400           # Cache max. age.
+verbose = true                  # Be verbose.
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]

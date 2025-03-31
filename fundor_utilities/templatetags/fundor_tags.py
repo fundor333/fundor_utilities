@@ -1,5 +1,10 @@
+import markdown
 from django import template
 from django.conf import settings
+from django.template.defaultfilters import stringfilter
+from django.utils.safestring import mark_safe
+
+from fundor_utilities.markdown_extensions import SlugFieldExtension
 
 register = template.Library()
 
@@ -46,9 +51,7 @@ def url_replace(value, field_name, params=None):
     url = f"?{field_name}={value}"
     if params:
         querystring = params.split("&")
-        filtered_querystring = filter(
-            lambda p: p.split("=")[0] != field_name, querystring
-        )
+        filtered_querystring = filter(lambda p: p.split("=")[0] != field_name, querystring)
         encoded_querystring = "&".join(filtered_querystring)
         url = f"{url}&{encoded_querystring}"
     return url
@@ -62,3 +65,10 @@ def url_replace_diff(request, field, value):
     dict_ = request.GET.copy()
     dict_[field] = value
     return dict_.urlencode()
+
+
+@register.filter
+@stringfilter
+def render_markdown(value):
+    md = markdown.Markdown(extensions=["fenced_code", "codehilite", SlugFieldExtension()])
+    return mark_safe(md.convert(value))
