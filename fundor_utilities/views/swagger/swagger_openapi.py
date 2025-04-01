@@ -6,31 +6,35 @@ from urllib.parse import urljoin
 from weakref import WeakKeyDictionary
 
 from django.core.exceptions import PermissionDenied
-from django.core.validators import (
-    DecimalValidator,
-    EmailValidator,
-    MaxLengthValidator,
-    MaxValueValidator,
-    MinLengthValidator,
-    MinValueValidator,
-    RegexValidator,
-    URLValidator,
-)
+from django.core.validators import DecimalValidator
+from django.core.validators import EmailValidator
+from django.core.validators import MaxLengthValidator
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinLengthValidator
+from django.core.validators import MinValueValidator
+from django.core.validators import RegexValidator
+from django.core.validators import URLValidator
 from django.db import models
 from django.http import Http404
-from django.utils.encoding import force_str, smart_str
-from rest_framework import exceptions, renderers, serializers
+from django.utils.encoding import force_str
+from django.utils.encoding import smart_str
+from rest_framework import exceptions
+from rest_framework import renderers
+from rest_framework import serializers
 from rest_framework.compat import uritemplate
-from rest_framework.fields import empty, Field
+from rest_framework.fields import empty
+from rest_framework.fields import Field
 from rest_framework.request import clone_request
-from rest_framework.schemas.generators import EndpointEnumerator, get_pk_name
-from rest_framework.schemas.utils import is_list_view, get_pk_description
+from rest_framework.schemas.generators import EndpointEnumerator
+from rest_framework.schemas.generators import get_pk_name
+from rest_framework.schemas.utils import get_pk_description
+from rest_framework.schemas.utils import is_list_view
 from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
 
-class ServerSwagger:
+class ServerSwagger:  # noqa: B903
     def __init__(self, url, description):
         self.url = url
         self.description = description
@@ -58,13 +62,13 @@ class SortedPathSchemaGenerator:
     coerce_path_pk = None
 
     def __init__(
-            self,
-            title=None,
-            url=None,
-            description=None,
-            patterns=None,
-            urlconf=None,
-            version=None,
+        self,
+        title=None,
+        url=None,
+        description=None,
+        patterns=None,
+        urlconf=None,
+        version=None,
     ):
         if url and not url.endswith("/"):
             url += "/"
@@ -215,14 +219,13 @@ class SortedPathSchemaGenerator:
                     }
                 }
             },
-
             "paths": dict(OrderedDict(sorted(paths.items(), key=lambda t: t[0]))),
         }
         if servers is not None:
-            servers = []
+            servers_list = []
             for e in servers:
-                servers.append({"url": e.url, "description": e.description})
-            schema['servers'] = servers
+                servers_list.append({"url": e.url, "description": e.description})
+            schema["servers"] = servers_list
         if schema is None:
             return
         return schema
@@ -303,7 +306,9 @@ class CustomAutoSchema:
         if method_docstring:
             # An explicit docstring on the method or action.
             return self._get_description_section(
-                view, method.lower(), formatting.dedent(smart_str(method_docstring))
+                view,
+                method.lower(),
+                formatting.dedent(smart_str(method_docstring)),
             )
         else:
             return self._get_description_section(
@@ -313,7 +318,7 @@ class CustomAutoSchema:
             )
 
     def _get_description_section(self, view, header, description):
-        lines = [line for line in description.splitlines()]
+        lines = [line for line in description.splitlines()]  # noqa: C416
         current_section = ""
         sections = {"": ""}
 
@@ -324,7 +329,7 @@ class CustomAutoSchema:
             else:
                 sections[current_section] += "\n" + line
 
-        # TODO: SCHEMA_COERCE_METHOD_NAMES appears here and in `SchemaGenerator.get_keys`
+        # TODO: SCHEMA_COERCE_METHOD_NAMES appears here and in `SchemaGenerator.get_keys`# noqa:B950
         coerce_method_names = api_settings.SCHEMA_COERCE_METHOD_NAMES
         if header in sections:
             return sections[header].strip()
@@ -391,21 +396,17 @@ class CustomAutoSchema:
             elif name.endswith("View"):
                 name = name[:-4]
 
-            # Due to camel-casing of classes and `action` being lowercase, apply title in order to find if action truly
+            # Due to camel-casing of classes and `action` being lowercase, apply title in order to find if action truly # noqa:B950
             # comes at the end of the name
-            if name.endswith(
-                    action.title()
-            ):  # ListView, UpdateAPIView, ThingDelete ...
+            if name.endswith(action.title()):  # ListView, UpdateAPIView, ThingDelete ...
                 name = name[: -len(action)]
 
-        if action == "list" and not name.endswith(
-                "s"
-        ):  # listThings instead of listThing
+        if action == "list" and not name.endswith("s"):  # listThings instead of listThing
             name += "s"
 
         return action + name
 
-    def get_tags(self, path, method):
+    def get_tags(self, path, method):  # noqa:B950
         """
         Compute the tags.
         """
@@ -427,9 +428,7 @@ class CustomAutoSchema:
         """
         Return a list of parameters from templated path variables.
         """
-        assert (
-            uritemplate
-        ), "`uritemplate` must be installed for OpenAPI schema support."
+        assert uritemplate, "`uritemplate` must be installed for OpenAPI schema support."
 
         model = getattr(getattr(self.view, "queryset", None), "model", None)
         parameters = []
@@ -440,7 +439,7 @@ class CustomAutoSchema:
                 # Attempt to infer a field description if possible.
                 try:
                     model_field = model._meta.get_field(variable)
-                except Exception:
+                except Exception:  # noqa: B902
                     model_field = None
 
                 if model_field is not None and model_field.help_text:
@@ -453,7 +452,9 @@ class CustomAutoSchema:
                 "in": "path",
                 "required": True,
                 "description": description,
-                "schema": {"type": "string", },  # TODO: integer, pattern, ...
+                "schema": {
+                    "type": "string",
+                },  # TODO: integer, pattern, ...
             }
             parameters.append(parameter)
 
@@ -502,7 +503,10 @@ class CustomAutoSchema:
 
         # Nested Serializers, `many` or not.
         if isinstance(field, serializers.ListSerializer):
-            return {"type": "array", "items": self._map_serializer(field.child)}
+            return {
+                "type": "array",
+                "items": self._map_serializer(field.child),
+            }
         if isinstance(field, serializers.Serializer):
             data = self._map_serializer(field)
             data["type"] = "object"
@@ -510,7 +514,10 @@ class CustomAutoSchema:
 
         # Related fields.
         if isinstance(field, serializers.ManyRelatedField):
-            return {"type": "array", "items": self._map_field(field.child_relation)}
+            return {
+                "type": "array",
+                "items": self._map_field(field.child_relation),
+            }
         if isinstance(field, serializers.PrimaryKeyRelatedField):
             model = getattr(field.queryset, "model", None)
             if model is not None:
@@ -560,9 +567,9 @@ class CustomAutoSchema:
                 "format": "date-time",
             }
 
-        # "Formats such as "email", "uuid", and so on, MAY be used even though undefined by this specification."
-        # see: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#data-types
-        # see also: https://swagger.io/docs/specification/data-models/data-types/#string
+        # "Formats such as "email", "uuid", and so on, MAY be used even though undefined by this specification." # noqa:B950
+        # see: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#data-types # noqa:B950
+        # see also: https://swagger.io/docs/specification/data-models/data-types/#string # noqa:B950
         if isinstance(field, serializers.EmailField):
             return {"type": "string", "format": "email"}
 
@@ -578,15 +585,13 @@ class CustomAutoSchema:
             }
             if field.protocol != "both":
                 content["format"] = field.protocol
-            return content
+            return content  # noqa:B950
 
         # DecimalField has multipleOf based on decimal_places
         if isinstance(field, serializers.DecimalField):
             content = {"type": "number"}
             if field.decimal_places:
-                content["multipleOf"] = float(
-                    "." + (field.decimal_places - 1) * "0" + "1"
-                )
+                content["multipleOf"] = float("." + (field.decimal_places - 1) * "0" + "1")
             if field.max_whole_digits:
                 content["maximum"] = int(field.max_whole_digits * "9") + 1
                 content["minimum"] = -content["maximum"]
@@ -602,10 +607,7 @@ class CustomAutoSchema:
             content = {"type": "integer"}
             self._map_min_max(field, content)
             # 2147483647 is max for int32_size, so we use int64 for format
-            if (
-                    int(content.get("maximum", 0)) > 2147483647
-                    or int(content.get("minimum", 0)) > 2147483647
-            ):
+            if int(content.get("maximum", 0)) > 2147483647 or int(content.get("minimum", 0)) > 2147483647:
                 content["format"] = "int64"
             return content
 
@@ -669,7 +671,8 @@ class CustomAutoSchema:
         map field validators
         """
         for v in field.validators:
-            # "Formats such as "email", "uuid", and so on, MAY be used even though undefined by this specification."
+            # see also: https://swagger.io/docs/specification/data-models/data-types/#string # noqa:B950
+            # "Formats such as "email", "uuid", and so on, MAY be used even though undefined by this specification." # noqa: B950
             # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#data-types
             if isinstance(v, EmailValidator):
                 schema["format"] = "email"
@@ -693,9 +696,7 @@ class CustomAutoSchema:
                 schema["minimum"] = v.limit_value
             elif isinstance(v, DecimalValidator):
                 if v.decimal_places:
-                    schema["multipleOf"] = float(
-                        "." + (v.decimal_places - 1) * "0" + "1"
-                    )
+                    schema["multipleOf"] = float("." + (v.decimal_places - 1) * "0" + "1")
                 if v.max_digits:
                     digits = v.max_digits
                     if v.decimal_places is not None and v.decimal_places > 0:
@@ -730,7 +731,7 @@ class CustomAutoSchema:
         try:
             return view.get_serializer()
         except exceptions.APIException:
-            warnings.warn(
+            warnings.warn(  # noqa: B028
                 "{}.get_serializer() raised an exception during "
                 "schema generation. Serializer fields will not be "
                 "generated for {} {}.".format(view.__class__.__name__, method, path)
@@ -776,9 +777,7 @@ class CustomAutoSchema:
                 if "writeOnly" in schema:
                     del item_schema["properties"][name]
                     if "required" in item_schema:
-                        item_schema["required"] = [
-                            f for f in item_schema["required"] if f != name
-                        ]
+                        item_schema["required"] = [f for f in item_schema["required"] if f != name]
 
         if is_list_view(path, method, self.view):
             response_schema = {
@@ -787,17 +786,13 @@ class CustomAutoSchema:
             }
             paginator = self._get_paginator()
             if paginator:
-                response_schema = paginator.get_paginated_response_schema(
-                    response_schema
-                )
+                response_schema = paginator.get_paginated_response_schema(response_schema)
         else:
             response_schema = item_schema
 
         return {
             "200": {
-                "content": {
-                    ct: {"schema": response_schema} for ct in self.response_media_types
-                },
+                "content": {ct: {"schema": response_schema} for ct in self.response_media_types},
                 # description is a mandatory property,
                 # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#responseObject
                 # TODO: put something meaningful into it

@@ -1,13 +1,19 @@
-[tool.poetry]
+[project]
 name = "fundor_utilities"
-version = "2.1.0"
+version = "2.1.1"
 description = ""
-authors = ["Fundor333 <fundor333@fundor333.com>"]
+authors = [{ name = "Fundor333", email = "github@fundor333.com" }]
 keywords = ["django", "utilities"]
-
-homepage = "https://github.com/fundor333/fundor_utilities"
-repository = "https://github.com/fundor333/fundor_utilities"
-
+license = { text = "CC BY-NC-SA 4.0" }
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "django (>=5.1.7,<6.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "django-csv-export (>=0.0.3,<0.0.4)",
+    "djangorestframework (>=3.16.0,<4.0.0)",
+    "markdown (>=3.7,<4.0)",
+]
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Web Environment',
@@ -24,31 +30,17 @@ classifiers = [
     'Topic :: Internet :: WWW/HTTP',
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<4.0"
-django = ">=5.1, <6.0"
-openpyxl = "*"
-django-csv-export = "*"
-djangorestframework = "*"
-markdown = "^3.7"
-
-[tool.group.dev.dependencies]
-pytest = "^7.0.0"
-mkdocs = "^1.3.1"
-mkdocs-material = "^8.4.1"
-Pillow = "^9.2.0"
-CairoSVG = "^2.5.2"
-mike = "^1.1.2"
-pymdown-extensions = "^9.5"
-diagrams = "^0.21.1"
-mkdocs-material-extensions = "^1.0.3"
+[project.urls]
+homepage = "https://github.com/fundor333/fundor_utilities"
+repository = "https://github.com/fundor333/fundor_utilities"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 
 [tool.black]
-line-length = 79
+line-length = 120
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -64,6 +56,7 @@ exclude = '''
 )/
 '''
 
+
 [tool.skjold]
 sources = ["pyup", "gemnasium"] # Sources to check against.
 report_only = true              # Report only, always exit with zero.
@@ -75,3 +68,33 @@ verbose = true                  # Be verbose.
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+mkdocs = "^1.3.1"
+mkdocs-material = "^8.4.1"
+CairoSVG = "^2.5.2"
+mike = "^1.1.2"
+pymdown-extensions = "^9.5"
+diagrams = "^0.21.1"
+mkdocs-material-extensions = "^1.0.3"
+
+[tool.flake8]
+exclude = [
+    ".venv",
+    "fundor_utilities/templatetags/fundor_tags.py",
+    ",*migrations*",
+]
+extend-ignore = """
+        W503,
+        E203,
+        E701,
+        E501,
+        W503,
+        F403,
+        C901,
+        B907
+    """
+max-complexity = 18
+select = ["B", "C", "E", "F", "T4", "W", "B9"]
+max-line-length = 120

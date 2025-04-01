@@ -1,9 +1,7 @@
 from rest_framework import permissions
 
 
-class CheckSafeMethodsDjangoModelPermissions(
-    permissions.DjangoObjectPermissions
-):
+class CheckSafeMethodsDjangoModelPermissions(permissions.DjangoObjectPermissions):
     """
     Similar to `DjangoObjectPermissions`, but adding 'view' permissions.
     """
