@@ -70,17 +70,12 @@ class XlsxExporterView(View):
 
         :returns: :class:`QuerySet`
         """
-        try:
-            queryset = self.get_queryset()
-        except Exception:
-            if self.model is not None:
-                queryset = self.model.objects.all()
-            else:
-                exception_msg = (
-                    "No model to get queryset from. Either provide "
-                    "a model or override get_queryset method."
-                )
-                raise NoModelFoundException(_(exception_msg))
+
+        if self.model is not None:
+            queryset = self.model.objects.all()
+        else:
+            exception_msg = "No model to get queryset from. Either provide " "a model or override get_queryset method."
+            raise NoModelFoundException(_(exception_msg))
         return queryset
 
     def get_field_names(self) -> list:
@@ -97,15 +92,15 @@ class XlsxExporterView(View):
         if self.field_names:
             return self.field_names
         if self.model is not None:
-            self.field_names = [
-                f.name for f in self.model._meta.fields if not f.auto_created
-            ]
+            self.field_names = []
+            for f in self.model._meta.fields:
+                if f.auto_created:
+                    continue
+                else:
+                    self.field_names.append(f.name)
             return self.field_names
         else:
-            exception_msg = (
-                "No model to get field names from. Either "
-                "provide a model or override get_fields method."
-            )
+            exception_msg = "No model to get field names from. Either " "provide a model or override get_fields method."
             raise NoModelFoundException(_(exception_msg))
 
     def _get_field_verbose_names(self):
@@ -114,12 +109,8 @@ class XlsxExporterView(View):
         :returns: list
         """
         field_names = self.get_field_names()
-        if self.model is not None:
-            verbose_names = [
-                f.verbose_name
-                for f in self.model._meta.fields
-                if f.name in field_names
-            ]
+        if self.model is not None:  # noqa:B950
+            verbose_names = [f.verbose_name for f in self.model._meta.fields if f.name in field_names]
             return verbose_names
         else:
             exception_msg = "No model to get verbose field names from."
@@ -157,9 +148,7 @@ class XlsxExporterView(View):
             self.sheet_title = force_str(model_name + "_list.xlsx")
         else:
             exception_msg = (
-                "No model to generate filename. Either provide "
-                "model or filename or override get_filename "
-                "method."
+                "No model to generate filename. Either provide " "model or filename or override get_filename " "method."
             )
             raise NoModelFoundException(_(exception_msg))
         return self.sheet_title
@@ -182,9 +171,7 @@ class XlsxExporterView(View):
             self.filename = force_str(model_name + "_list.xlsx")
         else:
             exception_msg = (
-                "No model to generate filename. Either provide "
-                "model or filename or override get_filename "
-                "method."
+                "No model to generate filename. Either provide " "model or filename or override get_filename " "method."
             )
             raise NoModelFoundException(_(exception_msg))
         return self.filename
@@ -212,10 +199,9 @@ class XlsxExporterView(View):
 
         :returns: :class:`HttpResponse`
         """
-        response = HttpResponse(content_type=self._content_type)
-        response[
-            "Content-Disposition"
-        ] = f'attachment; filename="{self.get_filename()}"'
+        response = HttpResponse(content_type=self._content_type)  # noqa:B907
+        filename = self.get_filename()
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa:B907
 
         # TypeError is raised mostly because of unicode and byte string issues
         wb = Workbook(write_only=True)
@@ -226,7 +212,10 @@ class XlsxExporterView(View):
             self.col_names = self.get_col_names()
             ws.append(self.col_names)
 
-        queryset = self.get_queryset_for_xlsx()
+        try:
+            _, queryset, _ = self.get_dated_items()
+        except Exception:  # noqa: B902
+            queryset = self.get_queryset()
         fields = self.get_field_names()
         if queryset is not None:
             for row in queryset.prefetch_related().values_list(*fields):

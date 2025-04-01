@@ -5,10 +5,9 @@ from rest_framework.authtoken.models import Token
 
 class SwaggerTemplateView(LoginRequiredMixin, TemplateView):
     template_name = "swagger-ui.html"
-    title= "Swagger Alilaguna"
 
     def get_context_data(self, **kwargs):
-        context = super(SwaggerTemplateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         try:
             context["token"] = Token.objects.get(user=self.request.user)
         except Token.DoesNotExist:
@@ -18,7 +17,7 @@ class SwaggerTemplateView(LoginRequiredMixin, TemplateView):
 
     def get_title(self):
         if self.title is not None:
-            title= "Swagger Rest Api"
+            title = "Swagger Rest Api"
         else:
             title = self.title
         return title

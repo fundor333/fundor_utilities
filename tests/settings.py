@@ -10,7 +10,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.auth",
     "tests",
-    "fundor_utilities"
+    "fundor_utilities",
 ]
 
 
@@ -38,4 +38,4 @@ STATIC_URL = "/static/"
 # XMLTestRunner output
 TEST_OUTPUT_DIR = ".xmlcoverage"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

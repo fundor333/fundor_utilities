@@ -16,17 +16,10 @@ class MultiFormMixin(ContextMixin):
         return self.form_classes
 
     def get_forms(self, form_classes, form_names=None, bind_all=False):
-        return dict(
-            [
-                (
-                    key,
-                    self._create_form(
-                        key, klass, (form_names and key in form_names) or bind_all
-                    ),
-                )
-                for key, klass in form_classes.items()
-            ]
-        )
+        outpout = {}
+        for key, klass in form_classes.items():
+            outpout[key] = self._create_form(key, klass, (form_names and key in form_names) or bind_all)
+        return outpout
 
     def get_form_kwargs(self, form_name, bind_form=False):
         kwargs = {}
