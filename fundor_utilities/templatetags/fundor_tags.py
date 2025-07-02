@@ -1,10 +1,8 @@
-import markdown
+from warnings import deprecated
+
 from django import template
 from django.conf import settings
-from django.template.defaultfilters import stringfilter
-from django.utils.safestring import mark_safe
 
-from fundor_utilities.markdown_extensions import SlugFieldExtension
 
 register = template.Library()
 
@@ -44,10 +42,14 @@ def table_page_range(page, paginator):
 
 
 @register.simple_tag
+@deprecated(
+    "This is deprecated, use querystring. https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template-tag"
+)
 def url_replace(value, field_name, params=None):
     """
     Give a field and a value and it's update the post parameter for the url accordly
     """
+
     url = f"?{field_name}={value}"
     if params:
         querystring = params.split("&")
@@ -58,17 +60,14 @@ def url_replace(value, field_name, params=None):
 
 
 @register.simple_tag
+@deprecated(
+    "This is deprecated, use querystring. https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template-tag"
+)
 def url_replace_diff(request, field, value):
     """
     Give a field and a value and it's update the post parameter for the url accordly
     """
+
     dict_ = request.GET.copy()
     dict_[field] = value
     return dict_.urlencode()
-
-
-@register.filter
-@stringfilter
-def render_markdown(value):
-    md = markdown.Markdown(extensions=["fenced_code", "codehilite", SlugFieldExtension()])
-    return mark_safe(md.convert(value))

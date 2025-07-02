@@ -60,7 +60,7 @@ class XlsxExporterView(View):
      Default value is 'text/xlsx' and should not be overridden.
     """
 
-    def get_queryset(self):
+    def get_queryset_for_xlsx(self):
         """Returns the queryset for generating XLSX.
 
         By default, it returns all instances of the Model class referred by
