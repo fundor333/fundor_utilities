@@ -1,6 +1,6 @@
 [project]
 name = "fundor_utilities"
-version = "4.1.0"
+version = "4.1.1"
 description = ""
 authors = [{ name = "Fundor333", email = "github@fundor333.com" }]
 keywords = ["django", "utilities"]
@@ -8,10 +8,10 @@ license = { text = "CC BY-NC-SA 4.0" }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
-    "django (>=5.1.7,<6.0.0)",
+    "django (>=5.0)",
     "openpyxl (>=3.1.5,<4.0.0)",
-    "django-csv-export (>=0.0.3,<0.0.4)",
-    "djangorestframework (>=3.16.0,<4.0.0)",
+    "django-csv-export (>=0.0.3)",
+    "djangorestframework (>=3.16.0)",
     "markdown (>=3.7,<4.0)",
     "deprecation (>=2.1.0,<3.0.0)",
 ]
