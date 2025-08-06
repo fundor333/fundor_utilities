@@ -1,7 +1,6 @@
-from warnings import deprecated
-
 from django import template
 from django.conf import settings
+from typing_extensions import deprecated
 
 
 register = template.Library()
@@ -10,13 +9,11 @@ register = template.Library()
 @register.filter
 def table_page_range(page, paginator):
     """
-    Given an page and paginator, return a list of max 10 (by default) page numbers:
-     - always containing the first, last and current page.
-     - containing one or two '...' to skip ranges between first/last and current.
-    Example:
-        {% for p in table.page|table_page_range:table.paginator %}
-            {{ p }}
-        {% endfor %}
+    Given a page and paginator, return a list of max 10 (by default) page
+    numbers: - always containing the first, last and current page. -
+    containing one or two '...' to skip ranges between first/last and
+    current. Example: {% for p in table.page |table_page_range:table.paginator
+    %} {{ p }} {% endfor %}
     """
 
     page_range = getattr(settings, "DJANGO_FILTER_SORT_PAGE_RANGE", 10)
@@ -43,11 +40,14 @@ def table_page_range(page, paginator):
 
 @register.simple_tag
 @deprecated(
-    "This is deprecated, use querystring. https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template-tag"
+    "This is deprecated, use querystring. "
+    "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
+    "-tag"
 )
 def url_replace(value, field_name, params=None):
     """
-    Give a field and a value and it's update the post parameter for the url accordly
+    Give a field , a value and it's update the post parameter for the url
+    accordly
     """
 
     url = f"?{field_name}={value}"
@@ -61,11 +61,14 @@ def url_replace(value, field_name, params=None):
 
 @register.simple_tag
 @deprecated(
-    "This is deprecated, use querystring. https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template-tag"
+    "This is deprecated, use querystring. "
+    "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
+    "-tag"
 )
 def url_replace_diff(request, field, value):
     """
-    Give a field and a value and it's update the post parameter for the url accordly
+    Give a field , a value and it's update the post parameter for the url
+    accordly
     """
 
     dict_ = request.GET.copy()
