@@ -1,7 +1,6 @@
+import deprecation
 from django import template
 from django.conf import settings
-from typing_extensions import deprecated
-
 
 register = template.Library()
 
@@ -39,10 +38,11 @@ def table_page_range(page, paginator):
 
 
 @register.simple_tag
-@deprecated(
-    "This is deprecated, use querystring. "
+@deprecation.deprecated(
+    deprecated_in="4.0.0",
+    details="This is deprecated, use querystring. "
     "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
-    "-tag"
+    "-tag",
 )
 def url_replace(value, field_name, params=None):
     """
@@ -60,10 +60,11 @@ def url_replace(value, field_name, params=None):
 
 
 @register.simple_tag
-@deprecated(
-    "This is deprecated, use querystring. "
+@deprecation.deprecated(
+    deprecated_in="4.0.0",
+    details="This is deprecated, use querystring. "
     "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
-    "-tag"
+    "-tag",
 )
 def url_replace_diff(request, field, value):
     """
