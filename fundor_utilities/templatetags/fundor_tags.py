@@ -1,4 +1,3 @@
-import deprecation
 from django import template
 from django.conf import settings
 
@@ -38,12 +37,6 @@ def table_page_range(page, paginator):
 
 
 @register.simple_tag
-@deprecation.deprecated(
-    deprecated_in="4.0.0",
-    details="This is deprecated, use querystring. "
-    "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
-    "-tag",
-)
 def url_replace(value, field_name, params=None):
     """
     Give a field , a value and it's update the post parameter for the url
@@ -60,12 +53,6 @@ def url_replace(value, field_name, params=None):
 
 
 @register.simple_tag
-@deprecation.deprecated(
-    deprecated_in="4.0.0",
-    details="This is deprecated, use querystring. "
-    "https://docs.djangoproject.com/en/5.1/releases/5.1/#querystring-template"
-    "-tag",
-)
 def url_replace_diff(request, field, value):
     """
     Give a field , a value and it's update the post parameter for the url

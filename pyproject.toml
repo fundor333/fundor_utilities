@@ -1,6 +1,6 @@
 [project]
 name = "fundor_utilities"
-version = "4.0.2"
+version = "4.1.0"
 description = ""
 authors = [{ name = "Fundor333", email = "github@fundor333.com" }]
 keywords = ["django", "utilities"]
