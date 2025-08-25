@@ -4,31 +4,53 @@ help: ## Show this help
 
 .PHONY: docs
 docs: ## Build the docs
-	@poetry run mike deploy $@ latest --update-aliases --push
+	@uv run mike deploy $@ latest --update-aliases --push
 
 .PHONY: update
 update: ## Update the docs
-	@poetry update
+	@uv lock
+	@uv sync
 
 rundocs: ## Run the docs locally
-	@poetry run mkdocs serve
+	@uv run mkdocs serve
 
 precommit: ## Run pre-commit hooks
-	@git add . & poetry run pre-commit run --all-files
+	@git add . & uv run pre-commit run --all-files
 
 .PHONY: test
 test: ## Run the tests
-	@poetry run mkdocs gh-deploy --force
+	@uv run mkdocs gh-deploy --force
 
 
 .PHONY: deploy
 deploy: update  ## Deploy for production
-	@poetry build
-	@poetry publish
+	@uv build
+	@uv publish
 
 .PHONY:install_dev
 install_dev: ## Install dev dependencies
-	@poetry install
-	@poetry run pre-commit install
-	@poetry run pre-commit autoupdate
+	@uv install
+	@uv run pre-commit install
+	@uv run pre-commit autoupdate
 
+patch: ## Increment patch
+	@uv version --bump patch
+
+
+minor: ## Increment minor
+	@uv version --bump minor
+
+major: ## Increment major
+	@uv version --bump major
+
+alpha: ## Increment alpha
+	@uv version --bump alpha
+
+beta: ## Increment beta
+	@uv version --bump beta
+
+stable: ## Increment stable
+	@uv version --bump stable
+
+dev: ## Increment dev
+	@uv version --bump dev

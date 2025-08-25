@@ -256,3 +256,4 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/django,python,pycharm
 .idea
+.envrc
